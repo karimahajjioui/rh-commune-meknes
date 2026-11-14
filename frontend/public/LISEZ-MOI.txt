@@ -1,0 +1,8 @@
+Logo de la Commune Urbaine de Meknès
+------------------------------------
+L'application cherche le logo dans cet ordre :
+ 1. frontend/public/logo.png            (recommandé : téléchargez-le une fois, il marche hors connexion)
+ 2. https://communemeknes.ma/sites/default/files/logo/logo-meknes.png  (logo du site officiel, nécessite internet)
+ 3. un emblème neutre de secours.
+
+Pour le fichier local : ouvrez l'adresse du point 2 dans votre navigateur, enregistrez l'image sous le nom logo.png dans ce dossier.

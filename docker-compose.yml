@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
+    volumes: [dbdata:/var/lib/mysql]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD:-rootpass}"]
+      interval: 5s
+      retries: 20
+  api:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
+      JWT_SECRET: ${JWT_SECRET:-changez-moi}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin@2026}
+      DEMO_DATA: ${DEMO_DATA:-1}
+      FRONT_URL: http://localhost:3000
+    depends_on: { db: { condition: service_healthy } }
+    ports: ["5000:5000"]
+  web:
+    build: { context: ./frontend }
+    depends_on: [api]
+    ports: ["3000:80"]
+volumes:
+  dbdata:
