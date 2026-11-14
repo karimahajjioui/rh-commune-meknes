@@ -58,37 +58,7 @@ flowchart LR
 
 Le détail (modèle de données, circuit de validation, choix techniques) est dans [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
-## Installation
 
-**Prérequis** : Node.js 20 et MySQL 8 (ou XAMPP).
-
-```bash
-# 1. Démarrer MySQL
-# 2. API
-cd backend
-cp .env.example .env        # adapter DB_PASSWORD, JWT_SECRET si besoin
-npm install
-npm start                   # http://localhost:5000
-
-# 3. Interface (autre terminal)
-cd frontend
-cp .env.example .env
-npm install
-npm run dev                 # http://localhost:3000
-```
-
-Sous Windows, le script `run.bat` effectue ces étapes. La base de données et les comptes de démonstration sont créés automatiquement au premier démarrage.
-
-**Avec Docker (optionnel)** : `docker compose up --build`, puis http://localhost:3000.
-
-### Comptes de démonstration
-
-| Compte | Mot de passe | Rôle |
-|---|---|---|
-| `admin` | `Admin@2026` | Administrateur |
-| `rh`, `chef`, `agent1` … `agent10` | `Demo@2026` | RH, chef, agents |
-
-Ces comptes et les données fictives n'existent que si `DEMO_DATA=1`. **En production : `DEMO_DATA=0`, changer `ADMIN_PASSWORD` et définir un `JWT_SECRET` long et aléatoire.**
 
 ## Structure du projet
 
@@ -102,28 +72,12 @@ rh-commune-meknes/
 └── run.bat / run.sh    Lancement local
 ```
 
-## API REST (principales routes)
-
-| Domaine | Routes |
-|---|---|
-| Authentification | `POST /api/auth/login` · `GET /api/me` |
-| Personnel | `GET/POST /api/employes` · `PUT /api/employes/:id` · `PATCH /api/employes/:id/actif` |
-| Congés | `GET/POST /api/conges` · `DELETE /api/conges/:id` · `PATCH /api/conges/:id/{traiter,valider,refuser}` · `GET /api/conges/:id/bulletin` |
-| Missions | `GET/POST /api/missions` · `PATCH /api/missions/:id/{traiter,valider,refuser}` |
-| Attestations | `GET/POST /api/attestations` |
-| Organisation | `GET /api/organisation` · `POST /api/divisions` · `POST /api/services` |
-| Pilotage | `GET /api/stats` · `GET /api/audit` · `GET /api/health` |
 
 ## Sécurité
 
 Mots de passe hachés (bcrypt), jetons JWT à durée limitée, contrôle d'accès par rôle côté serveur, requêtes SQL paramétrées, en-têtes `helmet`, limitation des tentatives de connexion, journal d'audit.
 
-## Tests
 
-```bash
-cd backend && npm test
-```
-Les tests unitaires couvrent le calcul des jours ouvrables (week-ends, jours fériés, bornes).
 
 ## Limites connues et pistes d'évolution
 
@@ -132,10 +86,7 @@ Les tests unitaires couvrent le calcul des jours ouvrables (week-ends, jours fé
 - Conserver un historique des effectifs pour tracer leur évolution dans le temps.
 - Notifications par e-mail et gestion de la photo de profil.
 
-## Crédits et licence
 
-- Le cahier des charges s'inspire du rapport de PFE « Développement d'une application web de gestion des ressources humaines » (NewDev Maroc, FST Fès, 2022). L'implémentation, l'architecture et l'adaptation au contexte d'une commune sont propres à ce dépôt.
-- Code sous licence [MIT](LICENSE). **Le blason et le nom de la Commune Urbaine de Meknès restent la propriété de la Commune et ne sont pas couverts par cette licence.**
 
 ## Auteure
 
